@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Newsletter selector (mockup)</title>
+  <title>Newsletter selector, version 3 (mockup)</title>
   <style>
     @font-face {
       font-family: "Roboto Condensed";
@@ -21,228 +21,22 @@
     }
 
     :root {
-      --card-border: #1273f7;
-      --field-border: #0053c7;
-      --selected-border: #0d914a;
-      --required: #ff0004;
+      --blue: #0b5fd6;        /* white on this is 5.8:1 */
+      --rest: #8b9098;        /* resting control borders, 3.2:1 on white */
+      --tint: #eaf2ff;
+      --focus: #0a2a66;
+      --required: #d90004;
       --muted: #4d4d4d;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      background: #fff;
+      background: #d9dce1;
       color: #000;
       font-family: "Roboto Condensed", sans-serif;
       font-size: 20px;
       font-weight: 400;
-      line-height: 23px; /* matches the 23px text boxes in the Figma frame */
-    }
-
-    .page {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 48px 53px 48px 48px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(40px, 6.8vw, 80px);
-      font-weight: 700;
-      line-height: normal;
-    }
-
-    .subhead {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 32px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 40px;
-      font-weight: 700;
-      line-height: normal;
-    }
-
-    .required-note { white-space: nowrap; }
-    .req { color: var(--required); }
-
-    /* ---------- Fields ---------- */
-    .fields { margin-top: 21px; }
-    .field + .field { margin-top: 12px; }
-
-    .field label {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .field input {
-      display: block;
-      width: 100%;
-      height: 60px;
-      padding: 0 16px;
-      border: 1px solid var(--field-border);
-      border-radius: 0;
-      background: #fff;
-      color: #000;
-      font: inherit;
-      cursor: text;
-    }
-
-    .field input:focus-visible,
-    .card:focus-visible {
-      outline: 3px solid rgba(18, 115, 247, 0.4);
-      outline-offset: 2px;
-    }
-
-    .demo-note {
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 21px;
-    }
-
-    /* ---------- Newsletter cards ----------
-       Every card is a true square. Type, padding and icon are sized in
-       container units (cqw) off the card's own width, so the eyebrow,
-       two-line title slot, description and icon sit in the same place on
-       every card and scale together at any screen size. */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 32px 46px;
-      margin: 51px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .cards > li {
-      width: 100%;
-      max-width: 360px;
-      min-width: 0;
-      justify-self: center;
-      container-type: inline-size;
-    }
-
-    .card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      padding: 4.25cqw;
-      border: 2px solid var(--card-border);
-      border-radius: 0;
-      background: #fff;
-      color: inherit;
-      font: inherit;
-      font-size: 6.08cqw;
-      line-height: 7cqw;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .card .eyebrow { display: block; }
-
-    /* Fixed two-line slot: one-line titles leave the same gap, so every
-       description starts at the same height. */
-    .card .title {
-      display: block;
-      height: 21.9cqw;
-      margin-top: 1.2cqw;
-      font-size: 10.94cqw;
-      font-weight: 700;
-      line-height: 10.94cqw;
-      text-wrap: balance;
-    }
-
-    .card .desc {
-      display: block;
-      margin-top: 2.4cqw;
-      text-wrap: pretty;
-    }
-
-    .card .icon {
-      position: absolute;
-      right: 4.25cqw;
-      bottom: 4.25cqw;
-      width: 21.3cqw;
-      height: 21.3cqw;
-    }
-
-    .card .icon--on { display: none; }
-    .card[aria-pressed="true"] { border-color: var(--selected-border); }
-    .card[aria-pressed="true"] .icon--off { display: none; }
-    .card[aria-pressed="true"] .icon--on { display: block; }
-
-    /* ---------- Confirm banner ---------- */
-    .page { padding-bottom: 140px; }
-
-    .confirm-bar {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 20px 48px;
-      background: var(--card-border);
-      color: #fff;
-      transform: translateY(100%);
-      visibility: hidden;
-      transition: transform 0.25s ease, visibility 0s linear 0.25s;
-    }
-
-    .confirm-bar.is-visible {
-      transform: translateY(0);
-      visibility: visible;
-      transition: transform 0.25s ease;
-    }
-
-    .confirm-text { margin: 0; min-width: 0; }
-    .confirm-text strong { font-weight: 700; }
-    .confirm-email { overflow-wrap: anywhere; }
-
-    .confirm-btn {
-      flex: none;
-      height: 48px;
-      padding: 0 32px;
-      border: 2px solid #fff;
-      border-radius: 0;
-      background: #fff;
-      color: var(--card-border);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .confirm-btn:hover { background: transparent; color: #fff; }
-    .confirm-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-
-    @media (max-width: 640px) {
-      .confirm-bar { flex-direction: column; align-items: stretch; padding: 16px 24px; gap: 12px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .confirm-bar, .confirm-bar.is-visible { transition: none; }
-    }
-
-    /* ---------- Narrow screens (design is a desktop frame) ---------- */
-    @media (max-width: 1100px) {
-      .page { padding: 32px 24px; }
-    }
-
-    @media (max-width: 640px) {
-      h2 { font-size: 32px; }
-      .subhead { flex-direction: column; align-items: flex-start; gap: 4px; }
+      line-height: 23px;
     }
 
     /* ---------- Mockup shell (not part of the component) ---------- */
@@ -347,6 +141,183 @@
       .ph-aside { display: none; }
       .chrome .tag { display: none; }
     }
+
+
+    /* ---------- v3 page ---------- */
+    .layout .page { max-width: none; margin: 0; padding: 0 0 240px; }
+    .ph-aside { padding-top: 12px; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(40px, 4.2vw, 60px);
+      font-weight: 700;
+      line-height: 1.05;
+    }
+    .intro { margin: 12px 0 0; color: var(--muted); }
+
+    .group { margin-top: 36px; }
+    .group-head { display: flex; align-items: baseline; gap: 20px; }
+    h2 { margin: 0; font-size: 36px; font-weight: 700; line-height: 1.1; }
+    .group-note { margin: 4px 0 0; color: var(--muted); font-size: 18px; line-height: 21px; }
+    .group-head + .cards { margin-top: 16px; }
+    .group-note + .cards { margin-top: 16px; }
+
+    .link-btn {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--blue);
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .link-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    /* ---------- Cards: true squares, type scales with the card ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cards > li {
+      width: 100%;
+      max-width: 360px;
+      min-width: 0;
+      justify-self: center;
+      container-type: inline-size;
+    }
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      padding: 4.25cqw;
+      border: 2px solid var(--rest);
+      background: #fff;
+      font-size: 6.08cqw;
+      line-height: 7cqw;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .12s ease, background-color .12s ease;
+    }
+    .card input { position: absolute; opacity: 0; pointer-events: none; }
+    .card .eyebrow { display: block; }
+    .card .eyebrow + .title { margin-top: 1.2cqw; }
+    .card .title {
+      display: block;
+      height: 19.6cqw;
+      font-size: 9.3cqw;
+      font-weight: 700;
+      line-height: 9.8cqw;
+      text-wrap: balance;
+    }
+    .card .desc { display: block; margin-top: 3cqw; text-wrap: pretty; }
+    .card .icon {
+      position: absolute;
+      right: 4.25cqw;
+      bottom: 4.25cqw;
+      width: 21.3cqw;
+      height: 21.3cqw;
+    }
+    .card .icon--on { display: none; }
+    .card:hover { border-color: var(--blue); }
+    .card:has(input:checked) { border-color: var(--blue); background: var(--tint); }
+    .card:has(input:checked) .icon--off { display: none; }
+    .card:has(input:checked) .icon--on { display: block; }
+    .card:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    /* ---------- Confirmation ---------- */
+    .done { margin-top: 36px; padding: 28px; border: 2px solid var(--blue); }
+    .done:focus { outline: none; }
+    .done p { margin: 12px 0 0; }
+    .done ul { margin: 12px 0 0; padding-left: 22px; }
+
+    /* ---------- Sign-up bar: the form itself, pinned to the window ---------- */
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.7fr) auto;
+      column-gap: 16px;
+      row-gap: 12px;
+      align-items: start;
+      padding: 16px 40px 20px;
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(100%); visibility: hidden;
+      transition: transform .25s ease, visibility 0s linear .25s;
+    }
+    .bar.is-visible { transform: translateY(0); visibility: visible; transition: transform .25s ease; }
+
+    .bar-info { grid-column: 1; grid-row: 1; margin-top: 22px; min-height: 52px; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+    .bar-count { margin: 0; font-weight: 700; }
+    .bar-toggle { display: none; }
+    .bf[hidden] { display: none !important; }
+    .bf label { display: block; margin-bottom: 4px; font-size: 16px; line-height: 18px; }
+    .bf label span { opacity: .9; }
+    .bf input {
+      display: block; width: 100%; height: 52px; padding: 0 14px;
+      border: 2px solid #fff; border-radius: 0; background: #fff; color: #000;
+      font: inherit; cursor: text;
+    }
+    .bf input:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    .bf input[aria-invalid="true"] { border-color: #ffd54a; }
+    .bf-email { grid-column: 2; grid-row: 1; }
+    .bf-first { grid-column: 3; grid-row: 1; }
+    .bf-last  { grid-column: 4; grid-row: 1; }
+    .bf-zip   { grid-column: 5; grid-row: 1; }
+    .error {
+      display: inline-block; margin: 6px 0 0; padding: 2px 8px;
+      background: #fff; color: var(--required); font-size: 17px; line-height: 20px;
+    }
+    .error[hidden] { display: none; }
+    .bar-submit {
+      grid-column: 6; grid-row: 1; margin-top: 22px;
+      height: 52px; padding: 0 32px;
+      border: 2px solid #fff; border-radius: 0; background: #fff; color: var(--blue);
+      font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .bar-submit:hover { background: transparent; color: #fff; }
+    .bar-submit:focus-visible, .bar-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+    @media (max-width: 1100px) {
+      .bar { grid-template-columns: 170px minmax(0, 1.4fr) minmax(0, 1fr) auto; padding: 14px 24px 18px; }
+      .bf-last { grid-column: 2; grid-row: 2; }
+      .bf-zip { grid-column: 3; grid-row: 2; }
+      .bar-submit { grid-column: 4; }
+    }
+    @media (max-width: 900px) {
+      .bar {
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 12px 16px 16px; max-height: 85%; overflow-y: auto;
+      }
+      .bar-info { grid-column: 1; grid-row: 1; margin: 0; min-height: 44px; }
+      .bar-toggle {
+        display: block; grid-column: 2; grid-row: 1; height: 44px; padding: 0 24px;
+        border: 2px solid #fff; border-radius: 0; background: #fff; color: var(--blue);
+        font: inherit; font-weight: 700; cursor: pointer;
+      }
+      .bar > .bf, .bar > .bar-submit { display: none; grid-column: 1 / -1; grid-row: auto; margin-top: 0; }
+      .bar.is-open > .bf, .bar.is-open > .bar-submit { display: block; }
+    }
+    /* Phones: nine stacked squares is a very long scroll, so cards become compact rows. */
+    @media (max-width: 640px) {
+      .cards { gap: 12px; }
+      .cards > li { max-width: none; }
+      .card { aspect-ratio: auto; padding: 14px 84px 14px 14px; font-size: 17px; line-height: 20px; }
+      .card .eyebrow + .title { margin-top: 2px; }
+      .card .title { height: auto; font-size: 26px; line-height: 28px; }
+      .card .desc { margin-top: 6px; }
+      .card .icon { width: 52px; height: 52px; right: 14px; bottom: auto; top: 50%; transform: translateY(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bar, .bar.is-visible, .card { transition: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -358,7 +329,7 @@
         <div class="url">example.org/newsletters</div>
         <div class="tag">Design mockup, not the live site</div>
       </div>
-      <div class="viewport">
+      <div class="viewport" id="viewport">
         <div class="ph-header ph-label" aria-hidden="true">
           <span class="ph-logo"></span>
           <span>Site header: station logo, stream links, donate</span>
@@ -368,197 +339,246 @@
           <span>Next up</span>
         </div>
         <div class="layout">
-  <main class="page">
-    <h1>Newsletters and News Roundups</h1>
+          <main class="page">
+            <h1>Newsletters and News Roundups</h1>
+            <p class="intro">Choose what you want in your inbox, then add your email in the bar at the bottom.</p>
 
-    <form id="signup" novalidate onsubmit="return false">
-      <div class="subhead">
-        <h2>Subscribe to our newsletters</h2>
-        <p class="required-note" style="margin:0">indicates required <span class="req">*</span></p>
-      </div>
+            <form id="signup" novalidate>
+              <div id="choices">
+                <section class="group" aria-labelledby="g-news">
+                  <div class="group-head">
+                    <h2 id="g-news">Newsletters</h2>
+                    <button type="button" class="link-btn" data-group="g1">Select all</button>
+                  </div>
+                  <ul class="cards" id="g1">
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="the-beat" data-title="The Beat">
+              <span class="eyebrow">DAILY</span>
+              <span class="title">The Beat</span>
+              <span class="desc">Start your morning with the day’s top Michigan stories, curated by our newsroom and in your inbox by&nbsp;7&nbsp;a.m.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="this-week-at-michigan-public" data-title="This Week @ Michigan Public">
+              <span class="eyebrow">FRIDAYS</span>
+              <span class="title">This Week @ Michigan Public</span>
+              <span class="desc">The week’s biggest stories, standout conversations, and what to watch next, all in one Friday read.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="the-environment-report" data-title="The Environment Report">
+              <span class="eyebrow">THURSDAYS</span>
+              <span class="title">The Environment Report</span>
+              <span class="desc">Updates on the Great Lakes, climate, energy, and the people working to protect Michigan’s natural resources.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="its-just-politics" data-title="It’s Just Politics">
+              <span class="eyebrow">FRIDAYS</span>
+              <span class="title">It’s Just Politics</span>
+              <span class="desc">Sharp, plain-spoken analysis of Michigan and national politics from our political team.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="the-short-list" data-title="The Short List">
+              <span class="eyebrow">MONTHLY</span>
+              <span class="title">The Short List</span>
+              <span class="desc">A monthly roundup of concerts, community events, and things worth leaving the house for across the state.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+                  </ul>
+                </section>
 
-      <div class="fields">
-        <div class="field">
-          <label for="email">Email Address <span class="req">*</span></label>
-          <input id="email" name="email" type="email" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="first-name">First Name <span class="req">*</span></label>
-          <input id="first-name" name="first_name" type="text" autocomplete="given-name" required>
-        </div>
-        <div class="field">
-          <label for="last-name">Last Name</label>
-          <input id="last-name" name="last_name" type="text" autocomplete="family-name">
-        </div>
-        <div class="field">
-          <label for="zip">Zip Code</label>
-          <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code">
-        </div>
-      </div>
+                <section class="group" aria-labelledby="g-alerts">
+                  <div class="group-head">
+                    <h2 id="g-alerts">Alerts and station updates</h2>
+                    <button type="button" class="link-btn" data-group="g2">Select all</button>
+                  </div>
+                  <p class="group-note">Sent as needed, not on a schedule.</p>
+                  <ul class="cards" id="g2">
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="breaking-news-alerts" data-title="Breaking News Alerts">
+              <span class="title">Breaking News Alerts</span>
+              <span class="desc">Get notified right away when major news breaks in Michigan, from severe weather to big political developments.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="station-news-and-information" data-title="Station News &amp; Information">
+              <span class="title">Station News &amp; Information</span>
+              <span class="desc">Updates about our programming, schedule changes, and what’s happening at Michigan Public.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="general-communications" data-title="General Communications">
+              <span class="title">General Communications</span>
+              <span class="desc">(Giveaways, Contests, Events, Station Updates): Hear about ticket giveaways, listener contests, community events, and news from around the station.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+          <li><label class="card">
+              <input type="checkbox" name="newsletters" value="membership-communications" data-title="Membership Communications">
+              <span class="title">Membership Communications</span>
+              <span class="desc">(Benefits, Fund Drives, Member Updates): Learn about your member perks, upcoming fund drives, and how your support is making a difference.</span>
+              <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="33" fill="#fff" stroke="#0b5fd6" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#0b5fd6" stroke-width="4" fill="none"/></svg><svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#0b5fd6"/><path d="M21 36l10 10 19-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </label></li>
+                  </ul>
+                </section>
+              </div>
+            </form>
 
-      <p class="demo-note">Demo only: type in the fields and select any newsletters below. Nothing is submitted or saved.</p>
-
-      <ul class="cards">
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="the-beat">
-            <span class="eyebrow">DAILY</span>
-            <span class="title">The Beat</span>
-            <span class="desc">Start your morning with the day’s top Michigan stories, curated by our newsroom and in your inbox by 7 a.m.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="this-week-at-michigan-public">
-            <span class="eyebrow">FRIDAYS</span>
-            <span class="title">This Week @ Michigan Public</span>
-            <span class="desc">The week’s biggest stories, standout conversations, and what to watch next, all in one Friday read.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="the-environment-report">
-            <span class="eyebrow">THURSDAYS</span>
-            <span class="title">The Environment Report</span>
-            <span class="desc">Updates on the Great Lakes, climate, energy, and the people working to protect Michigan’s natural resources.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="its-just-politics">
-            <span class="eyebrow">FRIDAYS</span>
-            <span class="title">It’s Just Politics</span>
-            <span class="desc">Sharp, plain-spoken analysis of Michigan and national politics from our political team.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="the-short-list">
-            <span class="eyebrow">MONTHLY</span>
-            <span class="title">The Short List</span>
-            <span class="desc">A monthly roundup of concerts, community events, and things worth leaving the house for across the state.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="breaking-news-alerts">
-            <span class="eyebrow">AS NEEDED</span>
-            <span class="title">Breaking News Alerts</span>
-            <span class="desc">Get notified right away when major news breaks in Michigan, from severe weather to big political developments.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="station-news-and-information">
-            <span class="eyebrow">AS NEEDED</span>
-            <span class="title">Station News &amp; Information</span>
-            <span class="desc">Updates about our programming, schedule changes, and what’s happening at Michigan Public.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="general-communications">
-            <span class="eyebrow">AS NEEDED</span>
-            <span class="title">General Communications</span>
-            <span class="desc">(Giveaways, Contests, Events, Station Updates): Hear about ticket giveaways, listener contests, community events, and news from around the station.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="card" aria-pressed="false" data-newsletter="membership-communications">
-            <span class="eyebrow">AS NEEDED</span>
-            <span class="title">Membership Communications</span>
-            <span class="desc">(Benefits, Fund Drives, Member Updates): Learn about your member perks, upcoming fund drives, and how your support is making a difference.</span>
-            <svg class="icon icon--off" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#1273f7" stroke="#fff" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#fff" stroke-width="4" fill="none"/></svg>
-            <svg class="icon icon--on" width="70" height="70" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><circle cx="35" cy="35" r="34" fill="#fff" stroke="#1273f7" stroke-width="2"/><path d="M35 19v32M19 35h32" stroke="#1273f7" stroke-width="4" fill="none"/></svg>
-          </button>
-        </li>
-      </ul>
-    </form>
-  </main>
-
-          <aside class="ph-aside" aria-hidden="true">
-            <div class="ph-ad ph-ad--tall ph-label">Promo placeholder</div>
-            <div class="ph-ad ph-ad--wide ph-label">Promo placeholder</div>
-            <div class="ph-stories">
+            <section class="done" id="done" hidden tabindex="-1" aria-live="polite">
+              <h2>You're subscribed</h2>
+              <p id="done-text"></p>
+              <ul id="done-list"></ul>
+              <p><button type="button" class="link-btn" id="edit-btn">Change my selections</button></p>
+            </section>
+          </main>
+          <aside class="ph-aside" aria-label="Ad rail (placeholder)">
+            <div class="ph-ad ph-ad--tall ph-label">Ad tile 300 x 300</div>
+            <div class="ph-ad ph-ad--wide ph-label">Ad tile 300 x 60</div>
+            <div class="ph-stories" aria-hidden="true">
               <h3>Latest stories</h3>
               <div class="ph-story"><i></i><i></i></div>
               <div class="ph-story"><i></i><i></i></div>
               <div class="ph-story"><i></i><i></i></div>
               <div class="ph-story"><i></i><i></i></div>
             </div>
+            <div class="ph-ad ph-ad--tall ph-label">Ad tile 300 x 300</div>
           </aside>
         </div>
         <div class="ph-footer ph-label" aria-hidden="true">
           <span>Site footer: links, social, legal</span>
         </div>
       </div>
-  <div class="confirm-bar" id="confirm-bar" role="region" aria-label="Confirm your newsletter selections" aria-live="polite">
-    <p class="confirm-text" id="confirm-text"></p>
-    <button type="button" class="confirm-btn" id="confirm-btn">Confirm selections</button>
-  </div>
+
+      <div class="bar" id="bar" role="region" aria-label="Sign up">
+        <div class="bar-info">
+          <p class="bar-count" id="bar-count" aria-live="polite"></p>
+        </div>
+        <button type="button" class="bar-toggle" id="bar-toggle" aria-expanded="false" aria-controls="email">Continue</button>
+        <div class="bf bf-email">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" form="signup" autocomplete="email" required aria-required="true" aria-describedby="email-error">
+          <p class="error" id="email-error" hidden></p>
+        </div>
+        <div class="bf bf-first">
+          <label for="first-name">First name</label>
+          <input id="first-name" name="first_name" type="text" form="signup" autocomplete="given-name" required aria-required="true" aria-describedby="first-error">
+          <p class="error" id="first-error" hidden></p>
+        </div>
+        <button type="submit" form="signup" class="bar-submit">Subscribe</button>
+        <div class="bf bf-last">
+          <label for="last-name">Last name <span>(optional)</span></label>
+          <input id="last-name" name="last_name" type="text" form="signup" autocomplete="family-name">
+        </div>
+        <div class="bf bf-zip">
+          <label for="zip">Zip code <span>(optional)</span></label>
+          <input id="zip" name="zip" type="text" form="signup" inputmode="numeric" autocomplete="postal-code">
+        </div>
+      </div>
     </div>
   </div>
 
 
   <script>
-    // Newsletter cards toggle between unselected and selected.
-    document.querySelectorAll('.card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        var selected = card.getAttribute('aria-pressed') === 'true';
-        card.setAttribute('aria-pressed', selected ? 'false' : 'true');
-      });
-    });
-
-    // Confirm banner: appears once at least one newsletter is selected.
     (function () {
-      var bar = document.getElementById('confirm-bar');
-      var text = document.getElementById('confirm-text');
-      var btn = document.getElementById('confirm-btn');
+      var viewport = document.getElementById('viewport');
+      var form = document.getElementById('signup');
+      var inputs = Array.prototype.slice.call(document.querySelectorAll('.card input'));
+      var bar = document.getElementById('bar');
+      var count = document.getElementById('bar-count');
+      var toggle = document.getElementById('bar-toggle');
       var email = document.getElementById('email');
-      var cards = document.querySelectorAll('.card');
-      var confirmed = false;
+      var first = document.getElementById('first-name');
+      var choices = document.getElementById('choices');
+      var done = document.getElementById('done');
+      var small = window.matchMedia('(max-width: 900px)');
+      var finished = false;
 
-      function esc(v) {
-        return v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      }
+      function picked() { return inputs.filter(function (i) { return i.checked; }); }
+      function plural(n) { return n + (n === 1 ? ' newsletter' : ' newsletters'); }
 
       function render() {
-        var count = document.querySelectorAll('.card[aria-pressed="true"]').length;
-        bar.classList.toggle('is-visible', count > 0);
-        if (count === 0) { confirmed = false; }
-        var addr = email.value.trim();
-        var who = addr ? '<span class="confirm-email">' + esc(addr) + '</span>' : '<em>no email entered yet</em>';
-        var n = count + (count === 1 ? ' newsletter' : ' newsletters');
-        if (confirmed) {
-          text.innerHTML = '<strong>Thanks!</strong> (Demo) ' + n + ' confirmed for ' + who + '.';
-          btn.textContent = 'Update selections';
-        } else {
-          text.innerHTML = '<strong>Confirm your selections:</strong> ' + n + ' for ' + who;
-          btn.textContent = 'Confirm selections';
-        }
+        var n = picked().length;
+        count.textContent = plural(n) + ' selected';
+        bar.classList.toggle('is-visible', n > 0 && !finished);
+        document.querySelectorAll('[data-group]').forEach(function (b) {
+          var boxes = document.querySelectorAll('#' + b.dataset.group + ' input');
+          var all = Array.prototype.every.call(boxes, function (i) { return i.checked; });
+          b.textContent = all ? 'Clear all' : 'Select all';
+        });
       }
 
-      cards.forEach(function (c) {
-        c.addEventListener('click', function () { confirmed = false; render(); });
-      });
-      email.addEventListener('input', function () { confirmed = false; render(); });
+      inputs.forEach(function (i) { i.addEventListener('change', render); });
 
-      btn.addEventListener('click', function () {
-        if (!email.value.trim()) { email.focus(); return; }
-        confirmed = true;
+      document.querySelectorAll('[data-group]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var boxes = document.querySelectorAll('#' + b.dataset.group + ' input');
+          var all = Array.prototype.every.call(boxes, function (i) { return i.checked; });
+          Array.prototype.forEach.call(boxes, function (i) { i.checked = !all; });
+          render();
+        });
+      });
+
+      // Small screens: the bar collapses to a count and a Continue button.
+      toggle.addEventListener('click', function () {
+        var open = bar.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.textContent = open ? 'Hide' : 'Continue';
+        if (open) { email.focus({ preventScroll: true }); }
+      });
+
+      function setError(input, msgId, msg) {
+        var el = document.getElementById(msgId);
+        if (msg) { el.textContent = msg; el.hidden = false; input.setAttribute('aria-invalid', 'true'); }
+        else { el.hidden = true; input.removeAttribute('aria-invalid'); }
+      }
+      email.addEventListener('input', function () { setError(email, 'email-error', ''); });
+      first.addEventListener('input', function () { setError(first, 'first-error', ''); });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var bad = null;
+        var addr = email.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+          setError(email, 'email-error', addr ? 'Enter a valid email address, like name@example.com.' : 'Enter your email address.');
+          bad = bad || email;
+        } else { setError(email, 'email-error', ''); }
+        if (!first.value.trim()) { setError(first, 'first-error', 'Enter your first name.'); bad = bad || first; }
+        else { setError(first, 'first-error', ''); }
+        if (bad) {
+          if (small.matches) { bar.classList.add('is-open'); toggle.setAttribute('aria-expanded', 'true'); toggle.textContent = 'Hide'; }
+          bad.focus();
+          return;
+        }
+
+        var p = picked();
+        finished = true;
+        document.getElementById('done-text').textContent =
+          'Thanks, ' + first.value.trim() + '. A confirmation email is on its way to ' + addr + '. (Demo: nothing was sent.)';
+        var list = document.getElementById('done-list');
+        list.innerHTML = '';
+        p.forEach(function (i) { var li = document.createElement('li'); li.textContent = i.dataset.title; list.appendChild(li); });
+        choices.hidden = true;
+        done.hidden = false;
+        bar.classList.remove('is-open');
         render();
+        viewport.scrollTo({ top: 0 });
+        done.focus({ preventScroll: true });
+      });
+
+      document.getElementById('edit-btn').addEventListener('click', function () {
+        finished = false;
+        done.hidden = true;
+        choices.hidden = false;
+        toggle.textContent = 'Continue';
+        toggle.setAttribute('aria-expanded', 'false');
+        render();
+        viewport.scrollTo({ top: 0 });
       });
 
       render();
     })();
   </script>
+
 </body>
 </html>
